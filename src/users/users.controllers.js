@@ -1,6 +1,7 @@
 const uuid = require('uuid')
 
 const Users = require('../models/users.models')
+const { hashPassword } = require('../utils/crypto')
 
 const findAllUser = async () => {
     const data = await Users.findAll()
@@ -32,7 +33,7 @@ const createNewUser = async (userObj) => {
         lastName : userObj.lastName,
         email: userObj.email,
         password: userObj.password,
-        profileImage: userObj.profileImage,
+        profileImage: hashPassword(userObj.profileImage),
         phone : userObj.phone
     }
     const data = await Users.create(newUser)
@@ -56,7 +57,7 @@ const deleteUser = async (id) => {
         }
     })
     return data
-}
+} 
 
 module.exports = {
     findAllUser,
